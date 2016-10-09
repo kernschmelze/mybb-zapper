@@ -280,13 +280,12 @@ sub mybbdb_zap
               "UPDATE mybb_forums SET lastposttid='0' WHERE lastpost!='0';\n";
   $mcmd =~ s/mybb_/$mybb_conf_dbprefix/gm;
 
-  my @mybb_tblnames = qw( adminlog adminviews attachments announcements awaitingactivation 
+  my @mybb_tblnames = qw( adminlog attachments announcements awaitingactivation 
           banned buddyrequests calendars delayedmoderation events forumsread forumsubscriptions 
           groupleaders joinrequests mailerrors maillogs mailqueue massemails moderatorlog 
           moderators pollvotes posts polls privatemessages promotionlogs promotions 
           questionsessions reportedcontent reputation searchlog sessions stats tasklog 
-          threads threadsread threadratings threadviews threadsubscriptions userfields
-          warnings );
+          threads threadsread threadratings threadviews threadsubscriptions warnings );
   foreach (@mybb_tblnames) {
     $mcmd .= "TRUNCATE $mybb_conf_dbprefix$_;\n";
   }
@@ -385,7 +384,7 @@ die "Error: Invalid MyBB directory specified.\n" if (not -e $MYBB_DIR || not -d 
 die "Error: Invalid backup directory.\n" if (length($BKUP_DIR) && (not -e $BKUP_DIR || not -d $BKUP_DIR));
 die "Error: backup directory not writable for me.\n" if (length($BKUP_DIR) && not -w $BKUP_DIR);
 
-print "NOTICE: You have set the simulate option. No permanent changes will be made!\n";
+print "NOTICE: You have set the simulate option. No permanent changes will be made!\n" if $simulate;
 
 read_mbybb_config;
 print_mbybb_config;
